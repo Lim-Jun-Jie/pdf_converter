@@ -1,22 +1,34 @@
-# pdf_converter — Files to PDF
+# pdf_converter
 
-A small, private-by-design files-to-PDF website. Choose supported files or PDFs, arrange their page order, and download a PDF without uploading files to a server. Files and PDF pages are processed locally in your browser.
+**Live site:** [Open pdf_converter](https://lim-jun-jie.github.io/pdf_converter/)
 
-## Use it locally
+A private-by-design files-to-PDF tool. Arrange supported files, select which pages to include, and make a PDF without uploading content to a server. Files are processed locally in your browser.
 
-Open `index.html` in a modern browser. No build step or package installation is needed. PDF reading, PDF creation, and fonts are loaded from CDNs, so an internet connection is needed for those features.
+## Clone and edit locally
 
-## Import PDF files
+Install Git and Python 3, then clone the repository:
 
-Drop or choose one or more PDFs to render each page as a separate file. Pages are added in document order and can be rearranged alongside other uploaded files before making the final PDF. Every entry is selected by default; uncheck entries you want to leave out. PDFs are read and rendered locally in your browser.
+```powershell
+git clone https://github.com/Lim-Jun-Jie/pdf_converter.git
+cd pdf_converter
+```
+
+Open the folder in your editor (for example, run `code .` to open it in VS Code). Edit `index.html`, `styles.css`, and `app.js` to change the site. No package installation or build step is needed.
+
+To preview the site locally, start a static web server from the repository folder:
+
+```powershell
+python -m http.server 8000
+```
+
+Open [http://localhost:8000/](http://localhost:8000/) in your browser. PDF reading, PDF creation, and fonts load from CDNs, so those features require an internet connection.
+
+## Use the site
+
+Upload image files or PDFs. Each PDF page is rendered as a separate file entry; entries start selected and can be reordered or unchecked before export.
+
+Supported types include PDF, JPG/JPEG, PNG, GIF, WebP, BMP, SVG, and AVIF. Support for visual formats varies by browser; HEIC and TIFF may not open in every browser.
 
 ## Publish with GitHub Pages
 
-1. Push this repository to GitHub on the `main` branch.
-2. In the repository, open **Settings → Pages**.
-3. Under **Build and deployment**, select **GitHub Actions** as the source.
-4. The included workflow deploys the site on each push to `main`. Find its URL under **Settings → Pages** or in the completed workflow run.
-
-## Supported file types
-
-PDF, JPG/JPEG, PNG, GIF, WebP, BMP, SVG, and AVIF files are accepted. Support for visual formats varies by browser; HEIC and TIFF may not open in every browser. Each uploaded file or extracted PDF page becomes one PDF page, fitted inside A4 or US Letter and exported at up to 2400 pixels on the longest edge.
+The workflow in `.github/workflows/deploy.yml` deploys the site on every push to `main`. In the repository settings, choose **Pages → Build and deployment → Source: GitHub Actions**.
