@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f5">
+    <meta name="description" content="Arrange your files and turn them into a PDF, right in your browser.">
+    <title>pdf_converter — Files to PDF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="pdf_converter home">
+        <span class="brand-mark" aria-hidden="true">P</span>
+        <span>pdf<span class="brand-period">_</span>converter</span>
+      </a>
+      <div class="topbar-note">Your files never leave your device</div>
+      <a class="about-link" href="https://github.com/Lim-Jun-Jie/pdf_converter" target="_blank" rel="noopener noreferrer">About this project ↗</a>
+    </header>
+
+    <main class="page-shell">
+      <section class="intro" aria-labelledby="page-title">
+        <div class="eyebrow">FILE TO PDF <span class="eyebrow-dot" aria-hidden="true"></span> BROWSER-BASED CONVERTER</div>
+        <h1 id="page-title">A little order.<br><span>A lovely PDF.</span></h1>
+        <p class="intro-copy">Bring your files together, arrange them in order, and make a PDF in a click.</p>
+      </section>
+
+      <section class="workbench" aria-label="Files to PDF converter">
+        <div class="workbench-head">
+          <div>
+            <p class="section-label">YOUR FILES</p>
+            <h2>Arrange your pages</h2>
+          </div>
+          <div class="workbench-status">
+            <p id="page-count">Add a few files to get started</p>
+          </div>
+          <div class="head-actions">
+            <button id="clear-button" class="button button-quiet" type="button" hidden>Clear all</button>
+            <button id="add-more-button" class="button button-outline" type="button" hidden>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              Add files
+            </button>
+          </div>
+        </div>
+
+        <div id="drop-zone" class="drop-zone" role="button" tabindex="0" aria-label="Choose files or drop them here">
+          <input id="file-input" type="file" accept="image/*,application/pdf,.pdf" multiple hidden>
+          <div class="upload-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none"><path d="M24 31V10m0 0-8 8m8-8 8 8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 28v8a3 3 0 0 0 3 3h20a3 3 0 0 0 3-3v-8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Drop files here</h3>
+          <p>or <span class="browse-link">browse files</span> on your device</p>
+          <span class="upload-footnote">PDF, JPG/JPEG, PNG, GIF, WebP, BMP, SVG, AVIF · browser support varies</span>
+        </div>
+
+        <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+        <div id="image-list" class="image-list" aria-label="Selected files in PDF order"></div>
+
+        <div class="workbench-footer">
+          <div class="page-setting">
+            <label for="paper-size">Page size</label>
+            <div class="select-wrap">
+              <select id="paper-size" aria-label="PDF page size">
+                <option value="a4">A4</option>
+                <option value="letter">US Letter</option>
+              </select>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+          <button id="download-button" class="button button-primary" type="button" disabled>
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 3v9m0 0 3.5-3.5M10 12 6.5 8.5M4 13v3a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Make my PDF</span>
+            <span class="button-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <span class="footer-brand">pdf<span>_</span>converter</span>
+        <span>Made for the little things that make a big picture.</span>
+        <span class="footer-lock"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Private by design</span>
+      </footer>
+    </main>
+  </body>
+</html>
