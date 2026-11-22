@@ -25,7 +25,7 @@ Open [http://localhost:8000/](http://localhost:8000/) in your browser. PDF readi
 
 ## Use the site
 
-Upload image files or PDFs. Each PDF page is rendered as a separate file entry; entries start selected and can be reordered or unchecked before export.
+Upload image files or PDFs. Each PDF page is rendered as a separate file entry; entries start selected and can be reordered or unchecked before export. Choose icon view for larger page previews or switch to list view. Select, deselect, or clear files in bulk with the selection actions.
 
 Supported types include PDF, JPG/JPEG, PNG, GIF, WebP, BMP, SVG, and AVIF. Support for visual formats varies by browser; HEIC and TIFF may not open in every browser.
 

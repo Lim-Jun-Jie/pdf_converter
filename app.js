@@ -5,11 +5,17 @@ const pageCount = document.querySelector("#page-count");
 const notice = document.querySelector("#notice");
 const addMoreButton = document.querySelector("#add-more-button");
 const clearButton = document.querySelector("#clear-button");
+const viewSwitch = document.querySelector("#view-switch");
+const selectionToolbar = document.querySelector("#selection-toolbar");
+const selectAllButton = document.querySelector("#select-all-button");
+const deselectAllButton = document.querySelector("#deselect-all-button");
+const clearSelectedButton = document.querySelector("#clear-selected-button");
 const downloadButton = document.querySelector("#download-button");
 const paperSize = document.querySelector("#paper-size");
 
 const images = [];
 let draggedId = null;
+let displayView = "icons";
 let isExporting = false;
 let isImporting = false;
 let pdfJsPromise = null;
@@ -190,6 +196,24 @@ function removeImage(id) {
   render();
 }
 
+function setAllIncluded(included) {
+  if (isBusy()) return;
+  images.forEach((image) => {
+    image.included = included;
+  });
+  render();
+}
+
+function clearIncludedFiles() {
+  if (isBusy()) return;
+  for (let index = images.length - 1; index >= 0; index -= 1) {
+    if (!images[index].included) continue;
+    URL.revokeObjectURL(images[index].url);
+    images.splice(index, 1);
+  }
+  render();
+}
+
 function updateSelectionSummary() {
   const selectedCount = images.filter((image) => image.included).length;
   if (!images.length) {
@@ -200,18 +224,29 @@ function updateSelectionSummary() {
     pageCount.textContent = `${selectedCount} of ${images.length} files selected · drag to arrange your pages`;
   }
   downloadButton.disabled = selectedCount === 0 || isBusy();
+  return selectedCount;
 }
 
 function render() {
   imageList.replaceChildren();
   const hasImages = images.length > 0;
   dropZone.classList.toggle("has-files", hasImages);
+  imageList.classList.toggle("icons-view", displayView === "icons");
+  viewSwitch.hidden = !hasImages;
+  selectionToolbar.hidden = !hasImages;
   addMoreButton.hidden = !hasImages;
-  clearButton.hidden = !hasImages;
   addMoreButton.disabled = isBusy();
-  clearButton.disabled = isBusy();
   fileInput.disabled = isBusy();
-  updateSelectionSummary();
+  const selectedCount = updateSelectionSummary();
+  selectAllButton.disabled = isBusy() || selectedCount === images.length;
+  deselectAllButton.disabled = isBusy() || selectedCount === 0;
+  clearSelectedButton.disabled = isBusy() || selectedCount === 0;
+  clearButton.disabled = isBusy();
+  viewSwitch.querySelectorAll(".view-option").forEach((button) => {
+    const isActive = button.dataset.view === displayView;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
 
   images.forEach((image, index) => {
     const card = document.createElement("article");
@@ -219,6 +254,9 @@ function render() {
     card.draggable = !isBusy();
     card.dataset.id = image.id;
     card.setAttribute("aria-label", `Page ${index + 1}: ${image.file.name}`);
+
+    const preview = document.createElement("div");
+    preview.className = "file-preview";
 
     const includeCheckbox = document.createElement("input");
     includeCheckbox.type = "checkbox";
@@ -292,10 +330,18 @@ function render() {
       render();
     });
 
-    card.append(includeCheckbox, number, thumbnail, meta, actions);
+    preview.append(includeCheckbox, number, thumbnail);
+    card.append(preview, meta, actions);
     imageList.append(card);
   });
 }
+
+viewSwitch.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-view]");
+  if (!button || isBusy()) return;
+  displayView = button.dataset.view;
+  render();
+});
 
 async function addFiles(fileList) {
   if (isBusy()) return;
@@ -449,6 +495,9 @@ dropZone.addEventListener("keydown", (event) => {
   }
 });
 addMoreButton.addEventListener("click", openPicker);
+selectAllButton.addEventListener("click", () => setAllIncluded(true));
+deselectAllButton.addEventListener("click", () => setAllIncluded(false));
+clearSelectedButton.addEventListener("click", clearIncludedFiles);
 clearButton.addEventListener("click", () => {
   if (isBusy()) return;
   images.forEach((image) => URL.revokeObjectURL(image.url));
